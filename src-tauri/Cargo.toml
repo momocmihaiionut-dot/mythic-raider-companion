@@ -1,0 +1,29 @@
+[package]
+name = "mythic-raider-companion"
+version = "0.4.1"
+description = "Mythic Raider Companion"
+authors = ["Mythic Raider"]
+edition = "2021"
+
+[lib]
+name = "mythic_raider_companion_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-updater = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+reqwest = { version = "0.12", default-features = false, features = ["blocking", "rustls-tls"] }
+rfd = "0.14"
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.52"
+
+# rustc 1.96 crashes (STATUS_STACK_BUFFER_OVERRUN) compiling this crate at opt-level=3.
+# Drop just our crate to opt-level=1 (deps stay at 3); plenty for a thin desktop app.
+[profile.release.package."mythic-raider-companion"]
+opt-level = 1
