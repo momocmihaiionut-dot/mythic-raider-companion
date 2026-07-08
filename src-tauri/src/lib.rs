@@ -1,4 +1,4 @@
-// Tauri v2 backend for the HLTG companion: detect WoW, download data, write SavedVariables.
+// Tauri v2 backend for the HLTG companion: detect WoW, download data, write the addon's Data.lua.
 
 use std::fs;
 use std::path::PathBuf;
@@ -9,7 +9,6 @@ const COMMON: &[&str] = &[
     r"C:\Program Files\World of Warcraft\_retail_",
     r"D:\World of Warcraft\_retail_",
     r"D:\Games\World of Warcraft\_retail_",
-    r"D:\Jocuri\World of Warcraft\_retail_",
     r"E:\World of Warcraft\_retail_",
 ];
 

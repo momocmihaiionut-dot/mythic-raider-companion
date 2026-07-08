@@ -1,7 +1,7 @@
 # Mythic Raider Companion
 
 Desktop sync app that brings **top-ranked raiders' talent builds** from
-[Warcraft Logs](https://www.warcraftlogs.com/) into World of Warcraft — no copy-paste.
+[Warcraft Logs](https://www.warcraftlogs.com/) into World of Warcraft. No copy-paste.
 
 This is the source for the signed installer distributed at
 [logsbyhltg.com](https://logsbyhltg.com). You can build it yourself, or just read
@@ -9,7 +9,7 @@ exactly what it does before running it.
 
 ## Why it exists
 
-WoW addons are sandboxed — they can't reach the internet. So talent data has to get
+WoW addons are sandboxed and can't reach the internet. So talent data has to get
 into the game some other way. The companion is that bridge:
 
 ```
@@ -18,17 +18,27 @@ logsbyhltg.com          Mythic Raider Companion        Mythic Raider Talents
  serves the talents)     writes Data.lua)                 > top 10, one-click import)
 ```
 
-## What it does — and what it doesn't
+## What it does, and what it doesn't
 
-The whole job is: download the talent data and write **one file**,
+The job is: get the talent data and write **one file**,
 `World of Warcraft/_retail_/Interface/AddOns/MythicRaiderTalents/Data.lua`.
+
+Two ways to get data:
+
+- **Sync now** downloads the latest published builds for every spec, boss and
+  region and writes them into the addon. Fast; use it whenever you want current data.
+- **Refresh a spec live** asks the server to crawl a fresh top 10 for the selected
+  spec from Warcraft Logs right now, then syncs. Slower, one spec at a time, freshest
+  possible.
+
+Either way, apply in-game with `/reload`, or it loads on next launch.
 
 - Auto-detects your WoW install (Windows registry + common install paths); you can
   also pick the `_retail_` folder by hand.
-- **Refuses to write** unless the download really is Mythic Raider talent data — it
+- **Refuses to write** unless the download really is Mythic Raider talent data. It
   checks for the `MythicRaiderTalentsDB` signature first, so a server hiccup or error
   page can't overwrite a good file with garbage.
-- Writes the addon's `Data.lua`, **not** SavedVariables — so you can sync while the
+- Writes the addon's `Data.lua`, **not** SavedVariables, so you can sync while the
   game is open and just `/reload`, no restart.
 - Touches **nothing** outside that one `Data.lua`: no account access, no credentials,
   no other addons, no other files.
@@ -54,7 +64,7 @@ Frontend is vanilla HTML/CSS/JS in [`src/`](src/); the backend is Rust in
 
 ## Tech stack
 
-- [Tauri 2](https://v2.tauri.app/) — Rust core + the system WebView
+- [Tauri 2](https://v2.tauri.app/): Rust core plus the system WebView
 - `reqwest` (HTTP), `winreg` (install detection), `rfd` (native folder picker)
 - Signed auto-updates via `tauri-plugin-updater`
 
